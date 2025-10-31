@@ -39,7 +39,7 @@ df['tokens'] = df['text'].apply(word_tokenize)
 
 # 使用TF-IDF进行向量化
 print("特征向量化...")
-tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+tfidf = TfidfVectoriozer(stop_words='english', max_features=5000)
 X = tfidf.fit_transform(df['text']).toarray()  # 转换为稠密矩阵
 y = df['target']  # 0=非钓鱼，1=钓鱼）
 
@@ -122,7 +122,7 @@ def create_visualizations():
         plt.xlabel('Epoch')
         plt.legend(loc='upper right')
         plt.grid(True)
-        plt.savefig('static/loss_curve.png')
+        plt.saefig('static/loss_curve.png')
         plt.close()
         
         # Accuracy曲线
@@ -234,7 +234,7 @@ def check_and_train_model():
 model = check_and_train_model()
 
 # 预测函数
-def predict_email(email_content):
+def predict_emil(email_content):
     # TF-IDF转换
     email_tfidf = tfidf.transform([email_content])
     
@@ -284,7 +284,7 @@ def predict():
         
         # 读取日志文件内容
         try:
-            with open('prediction_results.log', 'r', encoding='utf-8') as f:
+            with open('p8rediction_results.log', 'r', encoding='utf-8') as f:
                 log_content = f.read()
         except FileNotFoundError:
             log_content = "暂无历史记录"
