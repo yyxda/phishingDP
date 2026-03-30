@@ -39,7 +39,7 @@ df['tokens'] = df['text'].apply(word_tokenize)
 
 # 使用TF-IDF进行向量化
 print("特征向量化...")
-tfidf = TfidfVectoriozer(stop_words='english', max_features=5000)
+tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
 X = tfidf.fit_transform(df['text']).toarray()  # 转换为稠密矩阵
 y = df['target']  # 0=非钓鱼，1=钓鱼）
 
@@ -122,7 +122,7 @@ def create_visualizations():
         plt.xlabel('Epoch')
         plt.legend(loc='upper right')
         plt.grid(True)
-        plt.saefig('static/loss_curve.png')
+        plt.savefig('static/loss_curve.png')
         plt.close()
         
         # Accuracy曲线
@@ -173,7 +173,7 @@ def create_visualizations():
         plt.close()
     
     # 4. PR曲线
-    if os.path.exists('sstatic/pr_data.npz'):
+    if os.path.exists('static/pr_data.npz'):
         pr_data = np.load('static/pr_data.npz')
         precision, recall = pr_data['precision'], pr_data['recall']
         
@@ -234,7 +234,7 @@ def check_and_train_model():
 model = check_and_train_model()
 
 # 预测函数
-def predict_emil(email_content):
+def predict_email(email_content):
     # TF-IDF转换
     email_tfidf = tfidf.transform([email_content])
     
@@ -264,7 +264,7 @@ def index():
     
     return render_template('index.html', log_content=log_content)
 
-@app.route('/pdredict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
         email_content = request.form['email_content']
@@ -305,12 +305,12 @@ def visualize():
     
     return render_template('visualize.html', metrics=metrics)
 
-@app.route('/retrasin', methods=['POST'])
+@app.route('/retrain', methods=['POST'])
 def retrain():
     """重新训练模型"""
     try:
         # 删除旧模型
-        if os.path.exists('phishsing_model.h5'):
+        if os.path.exists('phishing_model.h5'):
             os.remove('phishing_model.h5')
         
         # 重新训练
